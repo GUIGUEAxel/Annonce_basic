@@ -5,7 +5,7 @@ if( !isset( $login) or $login=='' ){
     exit;
 }
 ?>
-
+ 
 <?php $title= 'Exemple Annonces Basic PHP: Annonces'; ?>
 
 <?php ob_start(); ?>
