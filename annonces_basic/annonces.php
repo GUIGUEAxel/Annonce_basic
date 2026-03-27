@@ -1,5 +1,6 @@
 <?php
     $link = mysqli_connect('mysql-basic.alwaysdata.net', 'basic_annonces', 'annonces', 'basic_annonces_db');
+
     
     $query= 'SELECT login FROM users WHERE login="'.$_POST['login'].'" and password="'.$_POST['password'].'"';
     $resultlogin = mysqli_query($link, $query );
