@@ -1,58 +1,63 @@
 <?php
 function openConnection()
 {
-    $link = mysqli_connect('mysql-basic.alwaysdata.net', 'basic_annonces', 'annonces', 'basic_annonces_db');
-    return $link;
+    try {
+        $dbh = new PDO('mysql:host=mysql-basic.alwaysdata.net;dbname=basic_annonces_db', 'basic_annonces', 'annonces');
+    } catch (PDOException $e) {
+        print "Erreur de connexion !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+    return $dbh;
 }
 
 function closeConnection($link)
 {
-    mysqli_close($link);
+    $dbh = null;
 }
 
 function isUser( $login, $password )
 {
     $isuser = False ;
-    $link = openConnection();
+    $dbh = openConnection();
 
     $query= 'SELECT login FROM Users WHERE login="'.$login.'" and password="'.$password.'"';
-    $result = mysqli_query($link, $query );
+    $result = $dbh->query( $query);
 
-    if( mysqli_num_rows( $result) )
+    if( $result->rowCount() )
         $isuser = True;
 
-    mysqli_free_result( $result );
-    closeConnection($link);
+    $result->closeCursor();
+    closeConnection($dbh);
 
     return $isuser;
 }
 
 function getAllAnnonces()
 {
-    $link = openConnection();
+    $dbh = openConnection();
 
-    $result = mysqli_query($link,'SELECT id, title FROM Post');
+    $result = $dbh->query('SELECT id, title FROM Post');
     $annonces = array();
 
-    while ($row = mysqli_fetch_assoc($result)) {
+    while ($row = $result->fetch()) {
         $annonces[] = $row;
     }
 
-    mysqli_free_result( $result);
-    closeConnection($link);
+    $result->closeCursor();
+    closeConnection($dbh);
 
     return $annonces;
 }
 
 function getPost( $id )
 {
-    $link = openConnection();
+    $dbh = openConnection();
 
     $id = intval($id);
-    $result = mysqli_query($link, 'SELECT * FROM Post WHERE id='.$id );
-    $post = mysqli_fetch_assoc($result);
+    $result = $dbh->query( 'SELECT * FROM Post WHERE id='.$id );
+    $post = $result->fetch();
 
-    mysqli_free_result( $result);
-    closeConnection($link);
+    $result->closeCursor();
+    closeConnection($dbh);
     return $post;
 }
