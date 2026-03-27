@@ -8,10 +8,12 @@
         mysqli_free_result( $resultlogin );
         $login = $_POST['login'];
         $annonces = array();
+        $resultall = mysqli_query($link, 'SELECT id, title FROM post');
+
         while ($row = mysqli_fetch_assoc($resultall)) {
             $annonces[] = $row;
         }
-        $resultall = mysqli_query($link, 'SELECT id, title FROM Post');
+
     }
     else{
         header( "refresh:5;url=index.php" );
