@@ -1,8 +1,8 @@
 <?php
-    $link = mysqli_connect('mysql-basic.alwaysdata.net', 'basic_annonces', 'annonces', 'basic_annonces_db');
-    
-    $result = mysqli_query($link, 'SELECT * FROM post WHERE id='.$_GET['id'] );
-    $post = mysqli_fetch_assoc($result);
+require_once 'model.php';
+
+$post = getPost( $_GET['id'] );
+
+// inclut le code de la présentation HTML
 require 'view/post.php';
 ?>
-
