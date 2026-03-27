@@ -1,17 +1,18 @@
 <?php
-    $link = mysqli_connect('mysql-basic.alwaysdata.net', 'basic_annonces', '8DRhjvsdZZ2V8CG', 'basic_annonces_db');
+    $link = mysqli_connect('mysql-basic.alwaysdata.net', 'basic_annonces', 'annonces', 'basic_annonces_db');
     
-    $query= 'SELECT login FROM Users WHERE login="'.$_POST['login'].'" and password="'.$_POST['password'].'"';
+    $query= 'SELECT login FROM users WHERE login="'.$_POST['login'].'" and password="'.$_POST['password'].'"';
     $resultlogin = mysqli_query($link, $query );
     
     if( mysqli_num_rows( $resultlogin) ){
         mysqli_free_result( $resultlogin );
         $login = $_POST['login'];
         $annonces = array();
+        $resultall = mysqli_query($link, 'SELECT id, title FROM post');
+
         while ($row = mysqli_fetch_assoc($resultall)) {
             $annonces[] = $row;
         }
-        $resultall = mysqli_query($link, 'SELECT id, title FROM Post');
     }
     else{
         header( "refresh:5;url=index.php" );
@@ -21,6 +22,4 @@
     require 'view/annonces.php';
 
 mysqli_close($link);
-
-
 ?>
