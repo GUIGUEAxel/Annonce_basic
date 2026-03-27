@@ -1,4 +1,6 @@
 <?php
+
+
 function openConnection()
 {
     try {
