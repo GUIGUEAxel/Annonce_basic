@@ -14,7 +14,7 @@ if( !isset( $login) or $login=='' ){
     <ul>
         <?php foreach( $annonces as $post ) : ?>
             <li>
-                <a href="post.php?id=<?php echo $post['id']; ?>">
+                <a href="/annonces/index.php/post?id=<?php echo $post['id']; ?>">
                     <?php echo $post['title']; ?>
                 </a>
             </li>
