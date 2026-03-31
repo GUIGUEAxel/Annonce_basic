@@ -4,6 +4,8 @@
 require_once 'model.php';
 require_once 'controllers.php';
 
+$model = new Model();
+$controller = new Controllers($model);
 // chemin de l'URL demandée au navigateur
 // (p.ex. /annonces/index.php)
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -15,17 +17,17 @@ if ( '/' == $uri) {
     exit;
 }
 elseif ( '/annonces/' == $uri || '/annonces/index.php' == $uri) {
-    loginAction();
+    $controller->loginAction();
 }
 elseif ( '/annonces/index.php/annonces' == $uri
     && isset($_POST['login']) && isset($_POST['password']) ){
 
-    annoncesAction($_POST['login'], $_POST['password']);
+    $controller->annoncesAction($_POST['login'], $_POST['password']);
 }
 elseif ( '/annonces/index.php/post' == $uri
     && isset($_GET['id'])) {
 
-    postAction($_GET['id']);
+    $controller->postAction($_GET['id']);
 }
 else {
     header('Status: 404 Not Found');

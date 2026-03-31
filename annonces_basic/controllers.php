@@ -4,7 +4,7 @@ class Controllers
 {
     protected $data = null;
 
-    function __construct()
+    function __construct($data)
     {
         $this->data = $data;
     }
@@ -15,10 +15,11 @@ class Controllers
 
     public function annoncesAction($login, $password)
     {
-        if (isUser($login, $password)) {
-            $annonces = getAllAnnonces();
+        if ($this->data->isUser($login, $password)) {
+            $annonces = $this->data->getAllAnnonces();
         } else {
             $login = '';
+            $annonces = [];
         }
 
         require 'view/annonces.php';
@@ -26,7 +27,7 @@ class Controllers
 
     public function postAction($id)
     {
-        $post = getPost($id);
+        $post = $this->data->getPost($id);
         require 'view/post.php';
     }
 }
